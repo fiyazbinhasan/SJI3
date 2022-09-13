@@ -1,0 +1,1 @@
+Roslyn version: 4.4.0.0Language version: CSharp10!Concurrent execution: enabledçàFile 'C:\Users\fiyaz\Desktop\SJI3\SJI3.Core\obj\Debug\net6.0\.NETCoreApp,Version=v6.0.AssemblyAttributes.cs' was recognized as generatedwsFile 'C:\Users\fiyaz\Desktop\SJI3\SJI3.Core\obj\Debug\net6.0\SJI3.Core.AssemblyInfo.cs' was recognized as generated

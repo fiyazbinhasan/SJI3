@@ -1,0 +1,13 @@
+@
+7C:\Users\fiyaz\Desktop\SJI3\SJI3.API\Common\Envelope.csutf-8H
+?C:\Users\fiyaz\Desktop\SJI3\SJI3.API\Common\ExceptionHandler.csutf-8T
+KC:\Users\fiyaz\Desktop\SJI3\SJI3.API\Common\IntegrationApisConfiguration.csutf-8K
+BC:\Users\fiyaz\Desktop\SJI3\SJI3.API\Controllers\BaseController.csutf-8O
+FC:\Users\fiyaz\Desktop\SJI3\SJI3.API\Controllers\TaskUnitController.csutf-8\
+SC:\Users\fiyaz\Desktop\SJI3\SJI3.API\Decorators\ExposePaginationHeadersAttribute.csutf-88
+/C:\Users\fiyaz\Desktop\SJI3\SJI3.API\Program.csutf-8F
+=C:\Users\fiyaz\Desktop\SJI3\SJI3.API\ViewModels\LoginModel.csutf-8[
+PC:\Users\fiyaz\Desktop\SJI3\SJI3.API\obj\Debug\net6.0\SJI3.API.GlobalUsings.g.csutf-8o
+dC:\Users\fiyaz\Desktop\SJI3\SJI3.API\obj\Debug\net6.0\.NETCoreApp,Version=v6.0.AssemblyAttributes.csutf-8Y
+NC:\Users\fiyaz\Desktop\SJI3\SJI3.API\obj\Debug\net6.0\SJI3.API.AssemblyInfo.csutf-8l
+aC:\Users\fiyaz\Desktop\SJI3\SJI3.API\obj\Debug\net6.0\SJI3.API.MvcApplicationPartsAssemblyInfo.csutf-8

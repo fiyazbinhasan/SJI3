@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json.schemastore.org/sarif-1.0.0",
+  "version": "1.0.0",
+  "runs": [
+    {
+      "tool": {
+        "name": "Microsoft (R) Visual C# Compiler",
+        "version": "4.4.0.0",
+        "fileVersion": "4.4.0-1.22369.1 (7569242c)",
+        "semanticVersion": "4.4.0",
+        "language": "en-US"
+      },
+      "results": [
+        {
+          "ruleId": "S2326",
+          "level": "warning",
+          "message": "'T' is not used in the interface.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/fiyaz/Desktop/SJI3/SJI3.Core/Common/Infra/IAppLogger.cs",
+                "region": {
+                  "startLine": 5,
+                  "startColumn": 29,
+                  "endLine": 5,
+                  "endColumn": 30
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1210",
+          "level": "warning",
+          "message": "When implementing IComparable, you should also override ==, !=, <, <=, >, >=.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/fiyaz/Desktop/SJI3/SJI3.Core/Common/Domain/Enumeration.cs",
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 23,
+                  "endLine": 8,
+                  "endColumn": 34
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        }
+      ],
+      "rules": {
+        "S1210": {
+          "id": "S1210",
+          "shortDescription": "\"Equals\" and the comparison operators should be overridden when implementing \"IComparable\"",
+          "fullDescription": "When you implement IComparable or IComparable<T> on a class you should also override Equals(object) and overload the comparison operators (==, !=, <, <=, >, >=). That’s because the CLR cannot automatically call your CompareTo implementation from Equals(object) or from the base comparison operator implementations. Additionally, it is best practice to override GetHashCode along with Equals.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-1210",
+          "properties": {
+            "category": "Minor Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S2326": {
+          "id": "S2326",
+          "shortDescription": "Unused type parameters should be removed",
+          "fullDescription": "Type parameters that aren’t used are dead code, which can only distract and possibly confuse developers during maintenance. Therefore, unused type parameters should be removed.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-2326",
+          "properties": {
+            "category": "Major Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "TestSourceScope",
+              "SonarWay"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
