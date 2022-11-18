@@ -37,8 +37,10 @@ public class SeedBackgroundService : BackgroundService
         {
             await context.Database.EnsureCreatedAsync(cancellationToken);
 
-            if (!context.Set<ApplicationUser>().Any())
-                context.Set<ApplicationUser>().Add(new ApplicationUser(Guid.NewGuid(), "Jon", "jon@1234"));
+            if(!context.Set<ApplicationUser>().Any())
+            {
+                context.Set<ApplicationUser>().Add(new ApplicationUser(new Guid("a1c4b914-c059-46f5-84bf-0415c118c39e"), "admin@sji3.local", "admin@sji3.local"));
+            }
             
             if (!context.Set<TaskUnitStatus>().Any())
             {

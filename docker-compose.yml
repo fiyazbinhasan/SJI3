@@ -1,23 +1,23 @@
 version: "3.4"
 
 services:
-  sonarqube:
-    image: sonarqube:community
-    volumes:
-      - sonarqube_data:/opt/sonarqube/data
-      - sonarqube_extensions:/opt/sonarqube/extensions
-      - sonarqube_logs:/opt/sonarqube/logs
-    ports:
-      - "9000:9000"
-    restart: unless-stopped
-
   sji3.api:
     image: ${DOCKER_REGISTRY-}sji3api
     build:
       context: .
       dockerfile: SJI3.API/Dockerfile
 
-volumes:
-  sonarqube_data:
-  sonarqube_extensions:
-  sonarqube_logs:
+  sji3.identity:
+    image: ${DOCKER_REGISTRY-}sji3identity
+    build:
+      context: .
+      dockerfile: SJI3.Identity/Dockerfile
+
+  #sji3.worker:
+  #  image: ${DOCKER_REGISTRY-}sji3worker
+  #  build:
+  #    context: .
+  #    dockerfile: SJI3.Worker/Dockerfile
+
+
+

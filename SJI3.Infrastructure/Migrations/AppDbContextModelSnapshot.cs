@@ -18,7 +18,7 @@ namespace SJI3.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -29,18 +29,59 @@ namespace SJI3.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Password")
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("ModifiedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
                         .HasColumnType("text");
 
                     b.Property<string>("TaskUnitsPrivate")
                         .HasColumnType("text");
 
-                    b.Property<string>("UserName")
+                    b.HasKey("Id");
+
+                    b.ToTable("ApplicationUsers");
+                });
+
+            modelBuilder.Entity("SJI3.Core.Entities.Menu", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Icon")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsParent")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("ModifiedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Url")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("ApplicationUsers");
+                    b.ToTable("Menus");
                 });
 
             modelBuilder.Entity("SJI3.Core.Entities.TaskUnit", b =>
@@ -55,8 +96,8 @@ namespace SJI3.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("CreatedOn")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<LocalDateTime?>("FromDateTime")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<Instant?>("FromDateTime")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTimeOffset?>("ModifiedOn")
                         .HasColumnType("timestamp with time zone");
@@ -70,8 +111,8 @@ namespace SJI3.Infrastructure.Migrations
                     b.Property<int>("TaskUnitTypeId")
                         .HasColumnType("integer");
 
-                    b.Property<LocalDateTime?>("ToDateTime")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<Instant?>("ToDateTime")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -112,6 +153,33 @@ namespace SJI3.Infrastructure.Migrations
                     b.ToTable("TaskUnitTypes");
                 });
 
+            modelBuilder.Entity("SJI3.Core.Entities.UserMenu", b =>
+                {
+                    b.Property<Guid>("ApplicationUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("MenuId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("ModifiedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("ApplicationUserId", "MenuId");
+
+                    b.HasIndex("MenuId");
+
+                    b.ToTable("UserMenu");
+                });
+
             modelBuilder.Entity("SJI3.Core.Entities.TaskUnit", b =>
                 {
                     b.HasOne("SJI3.Core.Entities.ApplicationUser", null)
@@ -119,6 +187,35 @@ namespace SJI3.Infrastructure.Migrations
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SJI3.Core.Entities.UserMenu", b =>
+                {
+                    b.HasOne("SJI3.Core.Entities.ApplicationUser", "ApplicationUser")
+                        .WithMany("UserMenus")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SJI3.Core.Entities.Menu", "Menu")
+                        .WithMany("UserMenus")
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Menu");
+                });
+
+            modelBuilder.Entity("SJI3.Core.Entities.ApplicationUser", b =>
+                {
+                    b.Navigation("UserMenus");
+                });
+
+            modelBuilder.Entity("SJI3.Core.Entities.Menu", b =>
+                {
+                    b.Navigation("UserMenus");
                 });
 #pragma warning restore 612, 618
         }

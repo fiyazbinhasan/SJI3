@@ -1,0 +1,118 @@
+<h2 mat-dialog-title xmlns="http://www.w3.org/1999/html">Add Task Unit</h2>
+<mat-dialog-content>
+  <div fxLayout="column" fxFlexFill>
+    <form [formGroup]="taskForm" novalidate #formRef="ngForm">
+      <div fxLayout="column" class="form-width">
+        <mat-form-field appearance="standard">
+          <mat-label>Moniker</mat-label>
+          <input matInput formControlName="moniker" />
+          <mat-error>
+            <span *ngIf="moniker.invalid && (moniker.touched || moniker.dirty)">
+              Moniker is required
+            </span>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="standard">
+          <mat-label>Task Types</mat-label>
+          <mat-select formControlName="taskUnitTypeId">
+            <mat-option
+              *ngFor="let taskType of taskTypeLists"
+              [value]="taskType.id"
+              (click)="onTaskSelected(taskType.id)"
+            >
+              {{ taskType.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error>
+            <span
+              *ngIf="
+                taskUnitTypeId.invalid &&
+                (taskUnitTypeId.touched || taskUnitTypeId.dirty)
+              "
+            >
+              Task type is required
+            </span>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field
+          appearance="standard"
+          [class.cdk-visually-hidden]="hideDateControls"
+        >
+          <mat-label>Start Date Time</mat-label>
+          <input
+            matInput
+            [ngxMatDatetimePicker]="fromDateTimePicker"
+            formControlName="fromDateTime"
+            [errorStateMatcher]="errorMatcher"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="$any(fromDateTimePicker)"
+          ></mat-datepicker-toggle>
+          <ngx-mat-datetime-picker
+            #fromDateTimePicker
+            [showSeconds]="showSeconds"
+            [enableMeridian]="enableMeridian"
+          >
+            <ng-template>
+              <span>OK</span>
+            </ng-template>
+          </ngx-mat-datetime-picker>
+          <mat-error
+            *ngIf="
+              fromDateTime.invalid &&
+              (fromDateTime.touched || fromDateTime.dirty)
+            "
+          >
+            <span *ngIf="fromDateTime.hasError('required')"
+              >Start date time is required</span
+            >
+          </mat-error>
+          <mat-error *ngIf="taskForm.hasError('fromDateTimeInvalid')">
+            <span>Start date time must be less than end date time</span>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field
+          appearance="standard"
+          [class.cdk-visually-hidden]="hideDateControls"
+        >
+          <mat-label>End Date Time</mat-label>
+          <input
+            matInput
+            [ngxMatDatetimePicker]="toDateTimePicker"
+            formControlName="toDateTime"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="$any(toDateTimePicker)"
+          ></mat-datepicker-toggle>
+          <ngx-mat-datetime-picker
+            #toDateTimePicker
+            [showSeconds]="showSeconds"
+            [enableMeridian]="enableMeridian"
+          >
+            <ng-template>
+              <span>OK</span>
+            </ng-template>
+          </ngx-mat-datetime-picker>
+          <mat-error
+            *ngIf="
+              toDateTime.invalid && (toDateTime.touched || toDateTime.dirty)
+            "
+          >
+            <span *ngIf="toDateTime.errors?.['required']"
+              >End date time is required</span
+            >
+            <span *ngIf="toDateTime.errors?.['toDateTimeInvalid']"
+              >End date time must be less than current date time</span
+            >
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="true">Cancel</button>
+  <button mat-button (click)="onSave()" cdkFocusInitial>Add</button>
+</mat-dialog-actions>

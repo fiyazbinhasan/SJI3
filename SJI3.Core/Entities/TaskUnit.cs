@@ -9,13 +9,13 @@ public class TaskUnit : Entity<Guid>, IAudit
 {
     public sealed override Guid Id { get; protected set; }
     public string Moniker { get; private set; }
-    public LocalDateTime? FromDateTime { get; private set; }
-    public LocalDateTime? ToDateTime { get; private set; }
+    public Instant? FromDateTime { get; private set; }
+    public Instant? ToDateTime { get; private set; }
     public int TaskUnitTypeId { get; private set; }
     public int TaskUnitStatusId { get; private set; }
     public Guid ApplicationUserId { get; private set; }
 
-    public TaskUnit(Guid id, string moniker, LocalDateTime? fromDateTime, LocalDateTime? toDateTime, int taskUnitTypeId, int taskUnitStatusId, Guid applicationUserId) : this()
+    public TaskUnit(Guid id, string moniker, Instant? fromDateTime, Instant? toDateTime, int taskUnitTypeId, int taskUnitStatusId, Guid applicationUserId) : this()
     {
         Id = id;
         Moniker = moniker;

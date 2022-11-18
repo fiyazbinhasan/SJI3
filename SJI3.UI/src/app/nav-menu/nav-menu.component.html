@@ -1,0 +1,43 @@
+<mat-toolbar color="primary" class="navbar">
+  <a class="navbar-brand mat-button" [routerLink]="['/task-management']"
+    >SJI3.UI</a
+  >
+  <span class="menu-spacer"></span>
+  <div class="nav-menu">
+    <a
+      mat-button
+      [routerLinkActive]="['link-active']"
+      [routerLink]="['/task-management']"
+    >
+      Task Management
+    </a>
+    <span>|</span>
+  </div>
+  <button *ngIf="!isAuthenticated" mat-button (click)="login()">
+    <mat-icon class="navbar-icon" aria-hidden="false" aria-label="login icon">
+      login
+    </mat-icon>
+    <label>Login</label>
+  </button>
+  <button *ngIf="isAuthenticated" mat-button [matMenuTriggerFor]="options">
+    <mat-icon
+      class="navbar-icon"
+      aria-hidden="false"
+      aria-label="user verified icon"
+    >
+      account_circle
+    </mat-icon>
+    <label>{{ userData.email }}</label>
+  </button>
+  <mat-menu #options="matMenu" xPosition="before">
+    <button mat-menu-item (click)="logoff()">
+      <mat-icon aria-hidden="false" aria-label="log out icon">logout</mat-icon>
+      Logout
+    </button>
+  </mat-menu>
+  <button *ngIf="isAuthenticated" mat-button (click)="logToken()">
+    <mat-icon class="navbar-icon" aria-hidden="false" aria-label="login icon">
+      generating_tokens
+    </mat-icon>
+  </button>
+</mat-toolbar>

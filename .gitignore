@@ -395,4 +395,5 @@ FodyWeavers.xsd
 *.msp
 
 # JetBrains Rider
-*.sln.iml
+/.idea/.idea.SJI3/.idea
+/.sonarqube/conf

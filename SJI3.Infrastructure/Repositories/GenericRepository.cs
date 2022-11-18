@@ -1,7 +1,9 @@
+using System;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using SJI3.Core.Common.Infra;
 
@@ -16,9 +18,17 @@ public class GenericRepository<T, TKey> : IGenericRepository<T, TKey> where T : 
         _context = context;
     }
 
-    public async Task<T> GetByIdAsync(TKey id)
+    public async Task<T> GetByIdAsync(TKey id, string includeProperties = "")
     {
-        return await _context.Set<T>().FindAsync(id);
+        IQueryable<T> query = _context.Set<T>();
+        
+        foreach (var includeProperty in includeProperties.Split
+                     (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+        {
+            query = query.Include(includeProperty);
+        }
+
+        return await query.FirstOrDefaultAsync(a => a.Id.Equals(id));
     }
 
     public async Task<IReadOnlyList<T>> ListAllAsync()

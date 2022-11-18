@@ -17,6 +17,7 @@ public class AppDbContext : DbContext
     public DbSet<TaskUnit> TaskUnits { get; set; }
     public DbSet<TaskUnitType> TaskUnitTypes { get; set; }
     public DbSet<TaskUnitStatus> TaskUnitStatuses { get; set; }
+    public DbSet<Menu> Menus { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -67,5 +68,17 @@ public class AppDbContext : DbContext
             .HasOne<ApplicationUser>()
             .WithMany()
             .HasForeignKey(s => s.ApplicationUserId);
+        
+        modelBuilder.Entity<UserMenu>().HasKey(sc => new { sc.ApplicationUserId, sc.MenuId });
+
+        modelBuilder.Entity<UserMenu>()
+            .HasOne(sc => sc.ApplicationUser)
+            .WithMany(s => s.UserMenus)
+            .HasForeignKey(sc => sc.ApplicationUserId);
+
+        modelBuilder.Entity<UserMenu>()
+            .HasOne(sc => sc.Menu)
+            .WithMany(s => s.UserMenus)
+            .HasForeignKey(sc => sc.MenuId);
     }
 }

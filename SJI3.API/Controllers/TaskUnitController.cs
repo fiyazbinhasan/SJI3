@@ -6,6 +6,7 @@ using SJI3.Core.Features.TaskUnit.Get;
 using SJI3.Core.Features.TaskUnit.Post;
 using SJI3.Core.Features.TaskUnit.Put;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 using SJI3.Core.Common.Extensions;
 
 namespace SJI3.API.Controllers;
@@ -52,6 +53,7 @@ public class TaskUnitController : BaseController
         return Ok(response.Message.TaskUnits.ShapeData(resourceParameters.Fields));
     }
 
+    [Authorize("SJI3ApiPolicy")]
     [HttpPost("", Name = "PostTaskUnit")]
     public async Task<IActionResult> Post([FromBody] PostTaskUnitCommand taskUnit)
     {
@@ -62,6 +64,7 @@ public class TaskUnitController : BaseController
         return Ok(response.Message.IsAdded);
     }
 
+    [Authorize("SJI3ApiPolicy")]
     [HttpPut("{id:guid}/UpdateTaskUnitStatus")]
     public async Task<IActionResult> UpdateTaskUnitStatus(Guid id, [FromBody] PutTaskUnitCommand taskUnit)
     {

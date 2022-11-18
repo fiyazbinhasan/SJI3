@@ -1,6 +1,0 @@
-projectKey=SJI3_Key
-serverUrl=http://localhost:9000
-serverVersion=9.6.1.59531
-dashboardUrl=http://localhost:9000/dashboard?id=SJI3_Key
-ceTaskId=AYM4kupk4kd-XhJ5wK2k
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AYM4kupk4kd-XhJ5wK2k

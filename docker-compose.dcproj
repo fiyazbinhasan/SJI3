@@ -9,6 +9,8 @@
     <DockerServiceName>sji3.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="docker-compose-postgres.yml" />
+    <None Include="docker-compose-sonarqube.yml" />
     <None Include="docker-compose.override.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
     </None>

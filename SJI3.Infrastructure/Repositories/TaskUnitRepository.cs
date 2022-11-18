@@ -6,13 +6,13 @@ using System;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
-using MassTransit;
 using SJI3.Core.Common.Domain;
 using SJI3.Core.Common.Infra;
+using SJI3.Infrastructure.Consumers.InMemory.TaskUnit.TaskStatusChanged;
 using Exists = SJI3.Core.Features.TaskUnit.Exists;
 using Get = SJI3.Core.Features.TaskUnit.Get;
 using Put = SJI3.Core.Features.TaskUnit.Put;
-using SJI3.Infrastructure.Consumers.Messages;
+using SJI3.Infrastructure.Consumers.InMemory.Infra;
 
 namespace SJI3.Infrastructure.Repositories;
 
@@ -20,9 +20,9 @@ public class TaskUnitRepository : GenericRepository<TaskUnit, Guid>, Get.IReposi
 {
     private readonly AppDbContext _context;
     private readonly ITaskQueue<Guid> _taskQueue;
-    private readonly IBus _bus;
+    private readonly IMemoryBus _bus;
 
-    public TaskUnitRepository(AppDbContext context, ITaskQueue<Guid> taskQueue, IBus bus) : base(context)
+    public TaskUnitRepository(AppDbContext context, ITaskQueue<Guid> taskQueue, IMemoryBus bus) : base(context)
     {
         _context = context;
         _taskQueue = taskQueue;
@@ -38,14 +38,14 @@ public class TaskUnitRepository : GenericRepository<TaskUnit, Guid>, Get.IReposi
     {
         IQueryable<TaskUnit> query = _context.Set<TaskUnit>();
 
-        if (!string.IsNullOrEmpty(parameters.Start) && !string.IsNullOrEmpty(parameters.End))
+        if (parameters.Start.HasValue && parameters.End.HasValue)
         {
-            var start = LocalDateTime.FromDateTime(DateTime.Parse(parameters.Start, null));
-            var end = LocalDateTime.FromDateTime(DateTime.Parse(parameters.End, null));
+            var interval = new DateInterval(parameters.Start.Value, parameters.End.Value);
 
-            var interval = new DateInterval(start.Date, end.Date);
-
-            query = query.Where(t => t.ToDateTime.HasValue && t.FromDateTime.HasValue && (interval.Contains(t.FromDateTime.Value.Date) || interval.Contains(t.ToDateTime.Value.Date)));
+            query = query.Where(t =>
+                t.ToDateTime.HasValue && t.FromDateTime.HasValue &&
+                (interval.Contains(t.FromDateTime.Value.InUtc().Date) ||
+                 interval.Contains(t.ToDateTime.Value.InUtc().Date)));
         }
 
         if (string.IsNullOrEmpty(parameters.OrderBy))
@@ -64,7 +64,7 @@ public class TaskUnitRepository : GenericRepository<TaskUnit, Guid>, Get.IReposi
         {
             await _taskQueue.QueueWorkItemAsync(_ => new ValueTask<Guid>(taskUnit.Id));
 
-            await _bus.Publish(new TaskStatusChanged(taskUnit.Id, taskUnit.TaskUnitStatusId, taskUnit.ApplicationUserId.ToString("N")));
+            await _bus.Publish(new TaskStatusChangedMessage(taskUnit.Id, taskUnit.TaskUnitStatusId, taskUnit.ApplicationUserId));
 
             return await Task.FromResult(true);
         }

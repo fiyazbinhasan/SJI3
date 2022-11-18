@@ -1,0 +1,91 @@
+<div class="container">
+  <div fxLayout="column" fxFlexFill>
+    <div fxLayout="row" class="controls-row-height">
+      <app-task-management-filter fxFlex="50"></app-task-management-filter>
+      <div
+        fxLayout="row"
+        fxFlex="50"
+        fxLayoutGap="8px"
+        fxLayoutAlign="end center"
+      >
+        <button
+          matTooltip="Refresh"
+          color="primary"
+          mat-icon-button
+          (click)="loadDataSource()"
+        >
+          <mat-icon>refresh</mat-icon>
+        </button>
+        <button mat-raised-button color="primary" (click)="openAddDialog()">
+          Add Task
+        </button>
+      </div>
+    </div>
+    <div class="mt-20 mat-elevation-z8">
+      <div class="loading-shade" *ngIf="isLoadingResults">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+      </div>
+      <div fxFlexFill>
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          matSort
+          matSortActive="createdOn"
+          matSortDisableClear
+          matSortDirection="desc"
+          class="mat-elevation-z8"
+        >
+          <ng-container matColumnDef="moniker">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Moniker</th>
+            <td mat-cell *matCellDef="let row">{{ row.moniker }}</td>
+          </ng-container>
+          <ng-container matColumnDef="taskUnitTypeId">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Task Type</th>
+            <td mat-cell *matCellDef="let row">{{ row.taskUnitType }}</td>
+          </ng-container>
+          <ng-container matColumnDef="dateTimeRange">
+            <th mat-header-cell *matHeaderCellDef>Date Time Range</th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.dateTimeRange }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="taskUnitStatusId">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.taskUnitStatus | humanize }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let row">
+              <button
+                mat-icon-button
+                [matMenuTriggerFor]="taskMenu"
+                aria-label=""
+                (click)="$event.stopPropagation()"
+              >
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #taskMenu xPosition="before">
+                <button mat-menu-item (click)="updateTaskUnitStatusToTwo(row)">
+                  <mat-icon aria-hidden="false" aria-label="tag icon"
+                    >label</mat-icon
+                  >
+                  <span>Change Status</span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+      <mat-paginator
+        [length]="resultsLength"
+        [pageSizeOptions]="[5, 10, 20]"
+        aria-label="Select page of faces results"
+      ></mat-paginator>
+    </div>
+  </div>
+</div>

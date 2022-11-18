@@ -1,0 +1,10 @@
+<body>
+  <app-nav-menu
+    [isAuthenticated]="isAuthenticated"
+    (logoffEvent)="logoffAndRevokeTokens()"
+    (loginEvent)="login()"
+    (logTokenEvent)="logToken()"
+    [userData]="userData"
+  ></app-nav-menu>
+  <router-outlet></router-outlet>
+</body>
